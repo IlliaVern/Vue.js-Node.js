@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        Сума на рахунку: {{ totalAccSum }} грн.<br />
+        Зарахувати на рахунок: <input type="number" v-model="replenish"> грн.
+        <button @click="replenishMoney" :disabled="isReplenishButtonDisabled">Зарахувати</button><br />
+        Зняти з рахунку: <input type="number" v-model="withdraw"> грн.
+        <button @click="withdrawMoney" :disabled="isWithdrawButtonDisabled">Зняти</button><br />
+        Відсотки за обслуговування {{ serviceFee }} грн.
+        <hr>
+        Сума у долларах: $ {{ accMoneyInUsd }} <br />
+        Сума у євро: Є {{ accMoneyInEur }}
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                totalAccSum: 0,
+                replenish: "",
+                withdraw: "",
+                serviceFee: 0,
+                accMoneyInUsd: 0,
+                accMoneyInEur: 0
+            },
+            watch: {
+                
+            },
+            computed: {
+                isReplenishButtonDisabled() {
+                    return !(this.replenish >= 0);
+                },
+                isWithdrawButtonDisabled() {
+                    return !(this.withdraw <= this.totalAccSum && this.withdraw >= 0 && this.withdraw * 1.03 <= this.totalAccSum)
+                },
+                totalAccSum() {
+                    return (this.totalAccSum / 24.5).toFixed(2)
+                    return (this.totalAccSum / 26.7).toFixed(2)
+                },
+                replenish() {
+                    return (this.replenish * 0.03).toFixed(2)
+                },
+                withdraw() {
+                    return (this.withdraw * 0.03).toFixed(2)
+                }
+            },
+            methods: {
+                replenishMoney() {
+                    this.totalAccSum += +this.replenish * 0.97
+                },
+                withdrawMoney() {
+                    this.totalAccSum -= this.withdraw * 0.97
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

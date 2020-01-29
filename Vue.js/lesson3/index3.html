@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <input type="number" :value="num1">
+
+        </div>
+        <div>
+            <input type="number" :value="num2">
+
+        </div>
+        <div>
+            <input type="number" :value="num3">
+
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                num1: "",
+                num2: "",
+                num3: ""
+            },
+            watch: {
+                num1() {
+                    this.num2 += +1
+                },
+                num2() {
+                    this.num3 += +1
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

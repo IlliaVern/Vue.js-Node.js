@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        Login: <input type="text" v-model="login" placeholder="Type login here"> <br />
+        Pass: <input type="password" v-model="pass"> <br />
+        <button @click="sent" :disabled="isButtonDisabled">Sent</button>
+        <div>Name: {{ msg1 }}</div>
+        <div>Pass: {{ msg2 }}</div>
+        {{ res }}
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                login: null,
+                pass: "",
+                msg1: "",
+                msg2: "",
+                res: ""
+            },
+            watch: {
+                pass() {
+                    this.msg1 = this.login ? "Ok" : "Please enter Login"
+                    this.msg2 = this.pass.length >= 8 ? 'Ok' : `Залишилось ${8 - this.pass.length}`
+                },
+                isButtonDisabled(newVal) {
+                    if (newVal === false) {
+                        this.msg1 = ""
+                        this.msg2 = ""
+                    }
+                }
+            },
+            computed: {
+                isButtonDisabled() {
+                    return !(this.login && this.pass.length >= 8);
+                },
+            },
+            methods: {
+                sent() {
+                    this.res = "Login: " + this.login + " Password: " + this.pass;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

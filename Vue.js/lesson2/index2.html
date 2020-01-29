@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        Login: <input type="text" v-model="login" placeholder="Type login here"> <br />
+        Password: <input type="password" v-model="password"> <br />
+        <button @click="sent" :disabled="isButtonDisabled">Sent</button>
+        <div>{{ res }}</div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                login: "",
+                password: "",
+                res: ""
+            },
+            computed: {
+                isButtonDisabled() {
+                    return !(this.login && this.password.length >= 8);
+                },
+            },
+            methods: {
+                sent() {
+                    this.res = "Login: " + this.login + " Password: " + this.password;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
