@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- <style>
+      .valid {
+        color: green;
+      }
+      .inValid {
+        color: red;
+      }
+    </style> -->
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        Тип транспорту:
+        <select name="" id="" v-model="transportType">
+          <option value="1">Автобус</option>
+          <option value="2">Потяг</option>
+          <option value="3">Літак</option>
+        </select>
+      </div>
+
+      <div v-if="transportType==='1'">
+        <!-- Дані для подорожі автобусом: номер місця, замовлення сніданку,  замовлення чаю, замовлення wifi. -->
+        <div>Номер місця <input type="number" placeholder="Оберіть номер місця" v-model="busPlace"></div>
+        <fieldset>
+            <legend>Додаткові опції</legend>
+            <label><input type="radio" name="busOptions"/>Сніданок</label>
+            <label><input type="radio" name="busOptions" name="busOptions"/>Чай</label>
+            <label><input type="radio" name="busOptions"/>Wi-Fi</label>
+        </fieldset>
+      </div>
+      <div v-if="transportType==='2'">
+        <!-- Дані для подорожі потягом: вид вагону (плацкарт, купе), потреба у постільній білизні, замовлення чаю. -->
+        <div>Вид вагону 
+            <select name="" id="" v-model="trainType">
+                <option value="reservedSeat">Плацкарт</option>
+                <option value="coupe">Купе</option>
+            </select>
+        </div>
+        <fieldset>
+            <legend>Додаткові опції</legend>
+            <label><input type="radio" name="trainOptions"/>Постільна білизна</label>
+            <label><input type="radio" name="trainOptions" name="busOptions"/>Чай</label>
+            <label><input type="radio" name="trainOptions"/>Вафлі</label>
+        </fieldset>
+      </div>
+      <div v-if="transportType==='3'">
+        <!-- Дані для подорожі літаком: клас (економ, стандарт, бізнес), номер місця. -->
+        <div>Клас
+            <select name="" id="" v-model="planeSeatClass">
+                <option value="economy">Економ</option>
+                <option value="standart">Стандарт</option>
+                <option value="business">Бізнес</option>
+            </select>
+        </div>
+        <label>Номер місця <input type="number" placeholder="Оберіть номер місця" v-model="planePlace"></label>
+
+    </div>
+    </div>
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          transportType: null,
+          busPlace: null,
+          trainType: null,
+          planeSeatClass: null,
+
+        },
+        computed: {},
+        watch: {},
+        methods: {}
+      });
+    </script>
+  </body>
+</html>
