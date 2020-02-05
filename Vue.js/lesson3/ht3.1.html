@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="number" :value="val1">
+        <input type="number" v-model="val2">
+        <input type="number" :value="val3" @input="onVal3Input">
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                base: 1,
+            },
+            computed: {
+                val1: {
+                    get: function () {
+                        return this.base
+                    },
+                    set: function (newVal) {
+                        this.base = parseFloat(newVal)
+                    }
+                },
+                val2: {
+                    get: function () {
+                        return this.base + 1
+                    },
+                    set: function (newVal) {
+                        this.base = parseFloat(newVal) - 1
+                    }
+                },
+                val3: {
+                    get: function () {
+                        return this.base + 2
+                    },
+                    set: function (newVal) {
+                        this.base = parseFloat(newVal) - 2
+                    }
+                },
+            },
+            watch: {
+
+            },
+            methods: {
+                onVal3Input(event) {
+                    const val = event.target.value
+                    this.val3 = val
+
+                }
+            },
+            // watch: {
+            //     num1(newVal) {
+            //         this.num2 += +this.num1 + 1
+            //         this.num3 += +this.num1 + 2
+            //     },
+            //     num2(newVal) {
+            //         this.num1 = this.num2 - 1
+            //         this.num3 += +this.num2 + 1
+            //     },
+            //     num3(newVal) {
+            //         this.num1 = this.num3 - 2
+            //         this.num2 = this.num3 - 1
+            //     }
+            // },
+        })
+    </script>
+</body>
+
+</html>
