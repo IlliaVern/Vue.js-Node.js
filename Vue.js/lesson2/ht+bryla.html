@@ -2,66 +2,138 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .valid {
+            color: green;
+        }
+
+        .inValid {
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
     <div id="app">
-        Сума на рахунку: {{ totalAccSum }} грн.<br />
-        Зарахувати на рахунок: <input type="number" v-model="replenish"> грн.
-        <button @click="replenishMoney" :disabled="isReplenishButtonDisabled">Зарахувати</button><br />
-        Зняти з рахунку: <input type="number" v-model="withdraw"> грн.
-        <button @click="withdrawMoney" :disabled="isWithdrawButtonDisabled">Зняти</button><br />
-        Відсотки за обслуговування {{ serviceFee }} грн.
-        <hr>
-        Сума у долларах: $ {{ accMoneyInUsd }} <br />
-        Сума у євро: Є {{ accMoneyInEur }}
+        <!-- Варіант 1  З класами -->
+        <div :class="totalClass">
+            Сума на рахунку: {{total}} грн.
+        </div>
+        <!-- Варіант 2 Зі стилями -->
+        <div :style="[totalStyle]">
+            Сума на рахунку: {{total}} грн.
+        </div>
+        <div :class="totalStyle">
+            Сума на рахунку: {{total}} грн.
+        </div>
+        <div>
+            <label for="addMoneyId">
+                Зарахувати на рахунок:
+            </label>
+            <input v-model="addMoney" type="number" id="addMoneyId" placeholder="Задайте суму" />
+            <button @click="addMoneyAction" :disabled="!isAddMoneyValid">
+                Зарахувати
+            </button>
+        </div>
+        <div>
+            <label>
+                Зняти з рахунку:
+                <input v-model="withdrawMoney" type="number" id="addMoneyId"  placeholder="Задайте суму" />
+            </label>
+            <button @click="withdrawMoneyAction" :disabled="!isWithdrawMoneyValid">
+                Зняти
+            </button>
+        </div>
+
+        <div v-if="percents>0">
+            Відсотки за обслуговування: {{percents}} грн.
+        </div>
+        <div v-else>
+            Задайте суму для виконання операції
+        </div>
+
+        <hr />
+        <div>
+            Сума у доларах: $
+            <span :style="{color:dollarColor}">{{dollars}}</span>
+            <br />
+            Сума у євро: Є
+            <span :class="{inValid:isEuroLess100, valid:!isEuroLess100}">{{euro}}</span>
+            <br />
+        </div>
     </div>
     <script>
         var app = new Vue({
-            el: '#app',
+            el: "#app",
             data: {
-                totalAccSum: 0,
-                replenish: "",
-                withdraw: "",
-                serviceFee: 0,
-                accMoneyInUsd: 0,
-                accMoneyInEur: 0
-            },
-            watch: {
-                
+                total: 0,
+                addMoney: null,
+                withdrawMoney: null,
+                totalClass: "",
+                totalStyle: "",
+                redTotalStyle: {
+                    color: "red"
+                },
+                blueTotalStyle: {
+                    color: "blue"
+                }
             },
             computed: {
-                isReplenishButtonDisabled() {
-                    return !(this.replenish >= 0);
+                dollarColor() {
+                    return this.dollars < 100 ? "red" : "green";
                 },
-                isWithdrawButtonDisabled() {
-                    return !(this.withdraw <= this.totalAccSum && this.withdraw >= 0 && this.withdraw * 1.03 <= this.totalAccSum)
+                percents() {
+                    // let s = 0;
+                    // if (this.addMoney !== null) s += this.addMoney * 0.003;
+                    // if (this.withdrawMoney !== null) s += this.withdrawMoney * 0.003;
+                    // return s;
+                    return (this.addMoney || 0 + this.withdrawMoney || 0) * 0.03;
                 },
-                totalAccSum() {
-                    return (this.totalAccSum / 24.5).toFixed(2)
-                    return (this.totalAccSum / 26.7).toFixed(2)
+                dollars() {
+                    return (this.total / 24).toFixed(2);
                 },
-                replenish() {
-                    return (this.replenish * 0.03).toFixed(2)
+                euro() {
+                    return (this.total / 27).toFixed(2);
                 },
-                withdraw() {
-                    return (this.withdraw * 0.03).toFixed(2)
+                isAddMoneyValid() {
+                    return this.addMoney > 0;
+                },
+                isWithdrawMoneyValid() {
+                    return (
+                        this.withdrawMoney > 0 &&
+                        parseFloat(this.withdrawMoney) + this.percents < this.total
+                    );
+                },
+                isEuroLess100() {
+                    return this.euro < 100;
+                }
+            },
+            watch: {
+                total(newValue, oldValue) {
+                    //----- Варіант 1   З класами
+                    if (oldValue < newValue) this.totalClass = "valid";
+                    else this.totalClass = "inValid";
+                    //----- Варіант 2   З стилями
+                    if (oldValue < newValue) this.totalStyle = this.blueTotalStyle;
+                    else this.totalStyle = this.redTotalStyle;
                 }
             },
             methods: {
-                replenishMoney() {
-                    this.totalAccSum += +this.replenish * 0.97
+                addMoneyAction() {
+                    this.total += parseFloat(this.addMoney);
+                    this.addMoney = null;
                 },
-                withdrawMoney() {
-                    this.totalAccSum -= this.withdraw * 0.97
+                withdrawMoneyAction() {
+                    this.total -= parseFloat(this.withdrawMoney) + this.percents;
+                    this.withdrawMoney = null;
                 }
             }
-        })
+        });
     </script>
 </body>
 
