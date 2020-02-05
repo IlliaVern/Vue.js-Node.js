@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      Клієнт:
+      <label>
+        ПІБ:
+        <input type="text" v-model="userName" />
+      </label>
+      <label>
+        Вік:
+        <input type="number" v-model="userAge" />
+      </label>
+      <button @click="addUser">Додати</button>
+      <hr />
+      <ul>
+        <li v-for="(user,index) in users" :key="index">
+          {{user.name}} - {{user.age}}
+          <button @click="onDelete(index)">Delete</button>
+        </li>
+      </ul>
+    </div>
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          userName: null,
+          userAge: null,
+          users: [
+            {
+              name: "Ivan",
+              age: 25
+            },
+            {
+              name: "Olga",
+              age: 18
+            }
+          ]
+        },
+        computed: {},
+        watch: {},
+        methods: {
+          addUser() {
+            this.users.push({
+              name: this.userName,
+              age: this.userAge
+            });
+            this.userAge = this.userName = null;
+          },
+          onDelete(index) {
+            this.users.splice(index, 1);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

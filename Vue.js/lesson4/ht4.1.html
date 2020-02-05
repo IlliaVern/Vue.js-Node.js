@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>ПІБ: <input type="text" v-model="userName"></div>
+        <div>Стать: 
+            <select v-model="gender">
+                <option disabled value="">Оберіть стать</option>
+                <option value="хлопець">хлопець</option>
+                <option value="дівчина">дівчина</option>
+            </select></div>
+        <div v-if="gender==='хлопець'">
+            <label>Чи служив у армії? <input type="checkbox" value="служив у армії" v-model="checkedBoyProp"></label>
+            <label>Чи має авто? <input type="checkbox" value="має авто" v-model="checkedBoyProp"></label>
+        </div>
+        <div v-if="gender==='дівчина'">
+            <label>Чи володіє англійською? <input type="checkbox" value="знає англійську"
+                    v-model="checkedGirlProp"></label>
+            <label>Чи користується комп'ютером? <input type="checkbox" value="користується комп'ютером"
+                    v-model="checkedGirlProp"></label>
+        </div>
+        <div>
+            <button @click="showEnteredInfo">Вивести дані</button>
+        </div>
+        <div>Введені дані: {{ enteredInfo }}</div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                userName: null,
+                gender: "",
+                enteredInfo: "",
+                checkedBoyProp: [],
+                checkedGirlProp: []
+            },
+            computed: {},
+            watch: {},
+            methods: {
+                showEnteredInfo() {
+                    if (this.gender === 'хлопець') this.enteredInfo = this.userName + " " + this.gender + " " +
+                        this.checkedBoyProp;
+                    else
+                        this.enteredInfo = this.userName + " " + this.gender + " " +
+                        this.checkedGirlProp
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <label>
+            New task:
+            <input type="text" v-model="newTask">
+        </label>
+        <button @click="addTask">Add</button>
+        <hr>
+        <ul>
+            <li v-for="(task,index) in tasks" :key="index">
+                {{index+1}} - {{task}}
+                <button @click="onDelete(index)">Delete</button>
+                <button @click="onChange(index)">Edit</button>
+            </li>
+        </ul>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                newTask: null,
+                tasks: ["Get up", "Eat", "Drive to work"]
+            },
+            computed: {},
+            watch: {},
+            methods: {
+                addTask() {
+                    // this.tasks.push(this.newTask) // //1-варіант
+                    // this.tasks=[...this.tasks, this.newTask] // //2-варіант
+                    Vue.set(this.tasks, 3, this.newTask) //3-варіант
+                    this.newTask = null
+                },
+                onDelete(index) {
+                    this.tasks.splice(index, 1)
+                },
+                onChange(index) {
+                    const newVal = prompt("Enter new value", this.tasks[index])
+                    Vue.set(this.tasks, index, newVal)
+                    // this.tasks[index] = newVal
+                    // this.tasks = [...this.tasks]
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
