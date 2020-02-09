@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        td,
+        th,
+        table {
+            border: 2px solid black
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" style="border-style: groove;">
+        <label>New dish
+            <input type="text" v-model="newDish">
+            <button @click="addDish">Add dish</button>
+        </label>
+        <table>
+            <tr>
+                <th>Очікуються</th>
+                <th>Готуються</th>
+                <th>Готові</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li v-for="(ds, index) in dsWaitingForCook" :key="index">
+                            {{ds}}
+                            <button @click="cook(index)">Cook</button>
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li v-for="(ds, index) in dsIsCooking" :key="index">
+                            {{ds}}
+                            <button @click="cooked(index)">Cooked</button>
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li v-for="(ds, index) in dsReady" :key="index">
+                            {{ds}}
+                            <button @click="served(index)">Served</button>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                newDish: null,
+                dsWaitingForCook: ["Golubtsi", "Borshch"],
+                dsIsCooking: ["Pelmeny", "Deruny", "Salad"],
+                dsReady: ["Soup", "Kompot"]
+            },
+            computed: {},
+            watch: {},
+            methods: {
+                addDish() {
+                    this.dsWaitingForCook.push(this.newDish)
+                    this.newDish = null
+                },
+                cook(index) {
+                    // const deletedArr = this.data.dsWaitingForCook.splice(index,1)
+                    // this.dsIsCooking.push(deletedArr[0])
+                    const [deletedEl] = this.dsWaitingForCook.splice(index, 1)
+                    this.dsIsCooking.push(deletedEl)
+                },
+                cooked(index) {
+                    const [deletedEl] = this.dsIsCooking.splice(index, 1)
+                    this.dsReady.push(deletedEl)
+                },
+                served(index) {
+                    this.dsReady.splice(index, 1)
+                }
+
+            }
+        })
+    </script>
+</body>
+
+</html>

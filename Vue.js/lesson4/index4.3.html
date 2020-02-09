@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        #mainOpt div {
+            display: inline-block;
+            border: 1px solid black;
+        }
+        td,th,table {
+            border: 2px solid black
+        }
+        td div {
+            border: 1px solid black
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" style="border-style:groove">
+        <div><h2>FC Karpaty</h2></div>
+        <div id="mainOpt">
+            <div>
+                Претендент
+                <label>
+                    Ім'я
+                    <input type="text" v-model="name" />
+                </label><br>
+                <label>
+                    Стать
+                    <select v-model="selectedGender">
+                        <option v-for="gender in genders" :key="gender.id" :value="gender.id">{{gender.text}}</option>
+                    </select>
+                </label><br>
+            </div>
+            <div>
+                <label>Кількість місць у чоловічій команді <input type="number" v-model="manTeamNumber"></label><br>
+                <label>Кількість місць у жіночій команді <input type="number" v-model="womanTeamNumber"></label>
+            </div><br>
+            <button @click="addNewMember">Додати</button>
+        </div>
+        <table v-if="hasPlayers">
+            <tr>
+                <th>Man Team <input type="text" v-model="searchMan"></th>
+                <th>Woman Team <input type="text" v-model="searchWoman"></th>
+            </tr>
+            <tr>
+                <td>
+                    <div v-for="(player, index) in getFilteredManList" :key="index">
+                        {{player}}
+                    </div>
+                </td>
+                <td>
+                    <div v-for="(player, index) in getFilteredWomanList" :key="index">
+                        {{player}}
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        const genders = [{
+                id: 1,
+                text: "Чоловік"
+            },
+            {
+                id: 2,
+                text: "Жінка"
+            }
+        ]
+        var app = new Vue({
+            el: "#app",
+            data: {
+                name: null,
+                selectedGender: null,
+                genders, //gerders: gerders,  - якщо змінна та дані співпадають то можна писати лише змінну
+                // name: null,
+                manTeamNumber: 10,
+                womanTeamNumber: 12,
+                manTeam: [],
+                womanTeam: [],
+                searchMan: null,
+                searchWoman: null
+            },
+            computed: {
+                getFilteredManList() {
+                    if (this.searchMan) return this.manTeam.filter(player => player.startsWith(this.searchMan))
+                    else return this.manTeam
+                },
+                getFilteredWomanList() {
+                    if (this.searchWoman) return this.womanTeam.filter(player => player.starsWith(this.searchWoman))
+                    else return this.womanTeam
+                },
+                hasPlayers() {
+                    return this.manTeam.length || this.womanTeam.length
+                }
+            },
+            watch: {
+                // searchMan(newVal){},
+                // searchWoman(newVal) {}
+            },
+            methods: {
+                addNewMember() {
+                    if (this.selectedGender === 1) {
+                        if (this.manTeam.length < this.manTeamNumber) {
+                            this.manTeam.push(this.name);
+                        } else alert("Чоловіча команда заповнена")
+                    } else {
+                        if (this.womanTeam.length < this.womanTeamNumber) {
+                            this.womanTeam.push(this.name)
+                        } else alert("Жіноча команда заповнена")
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

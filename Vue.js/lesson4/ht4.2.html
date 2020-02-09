@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        td,
+        th,
+        table {
+            border: 2px solid black
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <label>
+            Нова замовлена страва:
+            <input type="text" v-model="newOrderedDish">
+        </label>
+        <button @click="addDish">Add</button>
+        <hr>
+        <table v-if="hasOrders">
+            <tr>
+                <th>Очікуються</th>
+                <th>Готуються</th>
+                <th>Готові</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li v-for="(dish, index) in dishCook" :key="index">
+                            {{dish}}
+                            <button @click="cook(index)">Cook</button>
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li v-for="(dish, index) in dishCooked" :key="index">
+                            {{ dish }}
+                            <button @click="cooked(index)">Cooked</button>
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li v-for="(dish, index) in dishServed" :key="index">
+                            {{ dish }}
+                            <button @click="served(index)">Served</button>
+
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <!-- Задача. На кухню поступають замовлення. Спочатку ми додаємо їх у список “Очікують на виконання”, якщо повар береться
+    робити — замовлення переходить у список “Виконуються”, якщо замовлення виконано — переходить у список “Готові до
+    виносу”. Якщо натиснути на “Подано” - страва зникає з таблиці -->
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                newOrderedDish: null,
+                dishCook: [],
+                dishCooked: [],
+                dishServed: []
+            },
+            computed: {
+                hasOrders() {
+                    return this.dishCook.length || this.dishCooked.length || this.dishServed.length
+                }
+            },
+            watch: {},
+            methods: {
+                addDish() {
+                    this.dishCook.push(this.newOrderedDish) // //1-варіант
+                    // this.dishCook=[...this.dishCook, this.newOrderedDish] // //2-варіант
+                    // Vue.set(this.dishCook, 1, this.newOrderedDish) //3-варіант
+                    this.newOrderedDish = null
+                },
+                cook(index) {
+                    const [cookDish] = this.dishCook.splice(index, 1)
+                    this.dishCooked.push(cookDish)
+                },
+                cooked(index) {
+                    const [cookedDish] = this.dishCooked.splice(index, 1)
+                    this.dishServed.push(cookedDish)
+                },
+                served(index) {
+                    this.dishServed.splice(index, 1)
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
