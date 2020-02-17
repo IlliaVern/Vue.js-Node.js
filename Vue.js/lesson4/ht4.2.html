@@ -82,7 +82,7 @@
                 addDish() {
                     this.dishCook.push(this.newOrderedDish) // //1-варіант
                     // this.dishCook=[...this.dishCook, this.newOrderedDish] // //2-варіант
-                    // Vue.set(this.dishCook, 1, this.newOrderedDish) //3-варіант
+                    // Vue.set(this.dishCook, 1, this.newOrderedDish) //3-варіант чомусь не робить!!!
                     this.newOrderedDish = null
                 },
                 cook(index) {

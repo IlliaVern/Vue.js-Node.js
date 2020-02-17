@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <div v-for="(card, index) in cards">
+            <div class="header">
+                {{ card.question }}
+            </div>
+            <div>
+                <img :src="card.imagePath" alt="owlImage">
+                <button @click="playAudio(index)">Play</button>
+            </div>
+
+            <audio :ref="`mp_${index}`" :src="card.audioPath"></audio>
+
+        </div>
+        {{totalStyle}}
+        <div>
+            <input type="image" :src="'./images/' + image.imagePath" v-for="(image, index) in answearPics" 
+            :style="[totalStyle]" :key="index" @click="checkAnswear(index)">
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                cards: [{
+                    id: 1,
+                    question: "Обери картинку предмету, про який говорить Сова",
+                    imagePath: "./images/owl.jpg",
+                    audioPath: "./audio/example.mp3",
+                    rightAnswearId: true
+                }],
+                answearPics: [{
+                        id: 1,
+                        imagePath: 'apple.jpg',
+                        rightAnswearId: false
+                    },
+                    {
+                        id: 2,
+                        imagePath: 'pear.jpg',
+                        rightAnswearId: true
+                    },
+                    {
+                        id: 3,
+                        imagePath: 'orange.jpg',
+                        rightAnswearId: false
+                    }
+                ],
+                totalStyle: "",
+                redTotalStyle: {
+                    border: "2px solid red"
+                },
+                greenTotalStyle: {
+                    border: "2px solid green"
+                }
+            },
+            watch: {},
+            computed: {},
+            methods: {
+                playAudio(index) {
+                    this.$refs[`mp_${index}`][0].play()
+                },
+                checkAnswear(index) {
+                    const userAnswear = this.answearPics[index].rightAnswearId
+
+                    if (this.cards[0].rightAnswearId === userAnswear) {
+                        this.totalStyle = this.greenTotalStyle
+                    } else {
+                        this.totalStyle = this.redTotalStyle
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

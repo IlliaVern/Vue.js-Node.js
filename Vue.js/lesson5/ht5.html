@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+    <style>
+        table,
+        table div {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+        <div v-if="rooms.length">
+            <label>Ім'я:<input v-model="newName" type="text" /></label>
+            <label>Кімната:
+                <select v-model="roomNumb">
+                    <option v-for="(room, index) in rooms" :key='index'>{{ room }} </option>
+                </select>
+            </label>
+            <button @click="addStudentToRoom">Додати</button>
+        </div>
+        <div v-else>
+            Немає вільних кімнат
+          </div>
+        <hr>
+        <div>
+            Пошук
+            <label>Ім'я:<input v-model="searchName" type="text" /></label>
+            <label>Кімната:<input v-model="searchRoom" type="text" /></label>
+        </div>
+        Список мешканців
+        <table>
+            <tr>
+                <td>Ім'я</td>
+                <td>Кімната</td>
+            </tr>
+            <tr v-if='(searchName && !searchRoom)'>
+                <td>
+                    <div v-for="item in getFilteredName" :key="index">
+                        {{ item.student }}
+                    </div>
+                </td>
+
+                <td>
+                    <div v-for="item in getFilteredName" :key="index">
+                        {{ item.room }}
+                    </div>
+                </td>
+            </tr>
+
+            <tr v-if='(!searchName && searchRoom)||(!searchName&&!searchRoom)'>
+                <td>
+                    <div v-for="item in getFilteredRoom" :key="index">
+                        {{ item.student }}
+                    </div>
+                </td>
+
+                <td>
+                    <div v-for="item in getFilteredRoom" :key="index">
+                        {{ item.room }}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                newName: null,
+                roomNumb: null,
+                rooms: ['10a', '10b', '11a', '11b', '12a', '12b'],
+                roomersArr: [
+                    {
+                        student: 'Chobi',
+                        room: '10c'
+                    },
+                    {
+                        student: 'Onufrij',
+                        room: '10d'
+                    },
+                    {
+                        student: 'Kirkorov',
+                        room: '4t'
+                    },
+                    {
+                        student: 'Denys',
+                        room: '6h'
+                    },
+                    {
+                        student: 'Danylo',
+                        room: '6t'
+                    },
+                    {
+                        student: 'Jouzhi',
+                        room: '3k'
+                    }
+                ],
+                searchName: null,
+                searchRoom: null
+            },
+            computed: {
+                getFilteredName() {
+                    if (this.searchName)
+                        return this.roomersArr.filter(studentName => studentName.student.startsWith(this.searchName));
+                    else return this.roomersArr
+                },
+
+                getFilteredRoom() {
+                    if (this.searchRoom)
+                        return this.roomersArr.filter(roomNumb => roomNumb.room.startsWith(this.searchRoom));
+                    else return this.roomersArr
+                },
+
+            },
+            watch: {
+                searchName(newVal) { },
+                searchRoom(newVal) { }
+            },
+
+            methods: {
+                addStudentToRoom() {
+                    if (this.newName && this.roomNumb) {
+                        this.roomersArr.push(
+                            {
+                                student: this.newName,
+                                room: this.roomNumb
+                            }
+                        )
+                        this.rooms.splice(this.rooms.indexOf(this.roomNumb), 1);
+                        this.roomNumb = null
+                    }
+                    else
+                        alert("Задайте ім'я, або оберіть вільну кімнату")
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

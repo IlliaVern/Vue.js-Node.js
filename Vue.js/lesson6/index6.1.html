@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div v-for="(card, index) in cards">
+            <div class="header">
+                {{ card.question }}
+            </div>
+            <div>
+                <img :src="card.imagePath" alt="owlImage">
+                <button @click="playAudio(index)">Play</button>
+            </div>
+            <div>
+                <input :ref="`ans_${index}`" type="text">
+                <button @click="checkAnswear(index)">Check</button>
+            </div>
+            <audio :ref="`mp_${index}`" :src="card.audioPath"></audio>
+
+        </div>
+
+
+        <!-- <input ref="inp" type="text"> <br />
+        <button @click="go">Go</button>
+        <button @click="play">Play</button><button @click="pause">Pause</button> -->
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                cards: [{
+                        id: 1,
+                        question: "Знайти на клавіатурі літеру ",
+                        imagePath: "./images/owl.jpg",
+                        audioPath: "./audio/example.mp3",
+                        rightAnswear: "b"
+                    }, // ОДНА КАРТКА-ПИТАННЯ (ЇХ Є БАГАТО!!!)
+                    {
+                        id: 2,
+                        question: "Знайти на клавіатурі літеру ",
+                        imagePath: "./images/owl.jpg",
+                        audioPath: "./audio/example.mp3",
+                        rightAnswear: "a"
+                    },
+                ]
+            },
+            watch: {
+
+            },
+            computed: {
+                
+            },
+            methods: {
+                playAudio(index) {
+
+                    this.$refs[`mp_${index}`][0].play() // якщо ref знаходиться у v-for то повертається як масив 
+                    // з одним єдиним елементом і тому звертатись до нього треба як до 0-го елемента масиву
+                },
+                checkAnswear(index) {
+                    const userAnswear = this.$refs[`ans_${index}`][0].value
+                    if (this.cards[index].rightAnswear === userAnswear.toLowerCase())
+                        alert("OK")
+                    else
+                        alert("No((((")
+                }
+                // go() {
+                //     this.$refs.inp.value = "Hello"
+                // },
+                // play() {
+                //     this.$refs.mp.play()
+                // },
+                // pause() {
+                //     this.$refs.mp.pause()
+                // }
+            }
+        })
+    </script>
+</body>
+
+</html>

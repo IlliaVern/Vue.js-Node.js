@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        td,
+        th,
+        table {
+            border: 2px solid greenyellow
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <label>
+            ПІБ студента:
+            <input type="text" v-model="studentName" />
+        </label>
+        <label>
+            Кімната:
+            <select v-model="selectedRoom">
+                <option v-for="(room, index) in roomNumbs" :key="index">{{room.roomNum}}</option>
+            </select>
+        </label>
+        <button @click="addStudent()">Додати</button>
+        <hr />
+        <table>
+            <tr>
+                <th>ПІБ <input type="text" v-model="searchName"></th>
+                <th>Кімната <input type="text" v-model="searchRoom"></th>
+            </tr>
+            <tr v-for="(tenant, index) in getFilteredList" :key="index">
+                <td>
+                    {{tenant.name}}
+                </td>
+                <td>
+                    {{tenant.roomNum}}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        const roomNumbs = [
+            {id: 1, roomNum: "12a"}, 
+            {id: 2, roomNum: "13b"}, 
+            {id: 3, roomNum: "14c"}, 
+            {id: 4, roomNum: "15d"}
+            ]
+        var app = new Vue({
+            el: "#app",
+            data: {
+                studentName: null,
+                selectedRoom: null,
+                roomNumbs,
+                tenants: [{
+                        id: 1,
+                        name: "Ivanov I.I.",
+                        roomNum: "11o"
+                    },
+                    {
+                        id: 2,
+                        name: "Sidorov S.P.",
+                        roomNum: "5b"
+                    }
+                ],
+                searchName: null,
+                searchRoom: null
+            },
+            computed: {
+                getFilteredList() {
+                    if (this.searchName && !this.searchRoom)
+                        return this.tenants.filter(el => el.name.startsWith(this.searchName))
+                    else if (!this.searchName && this.searchRoom) return this.tenants.filter(el =>
+                        el.roomNum.startsWith(this.searchRoom))
+                    else return this.tenants
+                }
+            },
+            watch: {
+                searchName(newVal) {},
+                searchRoom(newVal) {}
+            },
+            methods: {
+                addStudent() {
+                    this.tenants.push({
+                        id: this.tenants.length + 1,
+                        name: this.studentName,
+                        roomNum: this.selectedRoom
+                    });
+                    this.roomNumbs.splice(this.roomNumbs.findIndex(el => el.roomNum === this.selectedRoom), 1)
+                    this.studentName = this.selectedRoom = null;
+                },
+            }
+        });
+    </script>
+</body>
+
+</html>
