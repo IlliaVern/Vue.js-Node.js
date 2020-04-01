@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= shopTitle %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <p>Welcome to <%= shopTitle %>. The best shop in the world!</p>
+
+    <%for(const product of products){%>
+      <p>----------------------------</p>
+    <h1><%= product.productTitle %></h1>
+    <p>Price: <%= product.price %> </p>
+    <p>Description: <%= product.description %> </p>
+ 
+    <% if(product.price>10){ %>
+      <p>Вітаємо !!!!</p>
+      <p>Акція !!!!</p>
+    <%} else {%>
+      <p>Нажаль акція не діє</p>
+    <%}%>
+  <%}%>
+  </body>
+</html>
