@@ -1,0 +1,31 @@
+<h2>Products page</h2>
+
+{{#if products.length}}
+<ul>
+    {{#each products}}
+    <li class="product">
+        <form action="/complete" method="POST">
+            <label>
+                {{#if completed}}
+                <input type="checkbox" checked name="completed">
+                <span class="completed">{{title}}</span>
+                {{!-- <span>{{price}}</span><br>
+                <span>{{description}}</span><br> --}}
+                {{else}}
+                <input type="checkbox" name="completed">
+                <span>{{title}}</span>
+                {{!-- <span>{{price}}</span><br>
+                <span>{{description}}</span><br> --}}
+                {{/if}}
+
+                <input type="hidden" value="{{_id}}" name="id">
+                <button class="btn btn-small" type="submit">Save</button>
+            </label>
+        </form>
+    </li>
+
+    {{/each}}
+</ul>
+{{else}}
+<p>No products!</p>
+{{/if}}

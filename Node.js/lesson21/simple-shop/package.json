@@ -1,0 +1,26 @@
+{
+  "name": "simple-shop",
+  "version": "1.0.0",
+  "description": "simple internet shop using node.js, express.js => router && template engine",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "dev": "nodemon app"
+  },
+  "keywords": [
+    "simple",
+    "shop"
+  ],
+  "author": "Illia Vernygora <illiavernigora@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.3",
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.2",
+    "hbs": "^4.1.0",
+    "mongoose": "^5.9.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
