@@ -5,8 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var productsRouter = require('./routes/products')
-var addProductRouter = require('./routes/addproduct');
+// var productsRouter = require('./routes/products')
+// var addProductRouter = require('./routes/addproduct');
 
 var app = express();
 
@@ -21,8 +21,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/products', productsRouter);
-app.use('/addproduct', addProductRouter)
+// app.use('/products', productsRouter);
+// app.use('/addproduct', addProductRouter)
 app.get('/about', function(req, res) {
   res.sendFile(__dirname + '/public/about.html')
 })
