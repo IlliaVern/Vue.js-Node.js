@@ -1,0 +1,13 @@
+<% for(book of books){ %>
+    <div>Book title: <%=book.title%></div>
+    <div>Written by: <%=book.author%></div>
+    <div>Year: <%=book.year%></div>
+    <input type="button" id="<%=book.title%>" value="Edit" onclick="onEdit(this.id)">
+    <div>-----------------------</div>
+<%}%>
+<script>
+    
+    function onEdit(clickedBookId){
+        alert(clickedBookId)
+    }
+</script>

@@ -1,0 +1,19 @@
+{
+    "books": [{
+        "title": "Fandorin",
+        "author": "Borys Akunin",
+        "year": "1990"
+    }, {
+        "title": "Angels and Demons",
+        "author": "Dan Brown",
+        "year": "2009"
+    }, {
+        "title": "Me",
+        "author": "About Me",
+        "year": "1"
+    }, {
+        "title": "Illia Vernygora",
+        "author": "Noname book",
+        "year": "2020"
+    }]
+}
