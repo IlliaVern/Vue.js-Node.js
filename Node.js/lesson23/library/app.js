@@ -32,7 +32,11 @@ app.use((req, res, next)=>{
 app.use('/', indexRouter);
 app.use('/books', booksRouter)
 
-
+//Приклад зчитування даних з файла json
+app.get('/data',(req,res)=>{
+  const data=require(__dirname+ '/books.json')
+  res.json(data)  
+})
 // Задача. Розробити додаток для бібліотеки з такими можливостями:
 // 1)	зберігати інформацію про книги : автор, назва, рік видання
 // 2)	виводиит усі книги на екран
