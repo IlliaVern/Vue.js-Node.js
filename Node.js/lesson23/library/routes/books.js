@@ -15,7 +15,20 @@ router.get('/add', function(req, res, next){
 /* GET edit book page. */
 router.get('/edit/:bookId', function(req, res, next){
   const data = require(req.bookDir + '/books.json')
-  res.render('main', {title: 'Library App', page: 'edit-book', books: data.books, id: req.params.bookId})
+  res.render('main', {title: 'Library App', page: 'edit-book', books: data.books, 
+  id: req.params.bookId})
+})
+/* GET filtered book page. */
+router.get('/filter', function(req, res, next){
+  const data = require(req.bookDir + '/books.json')
+  if (req.query.author) {
+    res.render('main', {title: 'Library App', page: 'books-list', 
+  books: data.books.filter(book => book.author === req.query.author)})
+  } else if (req.query.year) {
+    res.render('main', {title: 'Library App', page: 'books-list', 
+    books: data.books.filter(book => book.year === req.query.year)})
+    } else res.render('main', {title: 'Library App', page: 'books-list', 
+    books: data.books})
 })
 /* POST add book page. */
 router.post('/add',
@@ -71,5 +84,24 @@ function(req, res, next) {
     })
   }
 })
+/* POST filter book page. */
+// router.post('/filter',
+// [
+//   check('searchWord').isLength({min:2}).withMessage('Enter search word')
+// ],
+// function(req, res, next) {
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.json({success:false, err:{msg:errors.array().map(e=>e.msg).join(', ')}})
+//   }
+//   else {
+//     const data = require(req.bookDir + '/books.json')
+    
+//     data.books = data.books.filter(book => book.searchBy === searchWord)
+//     res.render('main', {title: 'Library App', page: 'books-list', books: data.books, 
+//   searchBy: req.body.searchBy, searchWord: req.body.searchWord})
+    
+//   }
+// })
 
 module.exports = router;
