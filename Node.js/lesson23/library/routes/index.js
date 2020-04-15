@@ -66,7 +66,7 @@ router.post('/books/edit',
   check('id').isLength({min:0}).withMessage('Відсутній id'),
   check('title').isLength({min:2}).bail().withMessage('Название должно быть длиннее 2-х букв'),
   check('author').isLength({min:5}).bail().isString({min:5}).bail().withMessage('Имя и фамилия автора должны быть текстом и длиннее 5-ти букв'),
-  check('year').isFloat({min: 0, max: 2020 }).withMessage('Год написания должен быть от 0 до 2020')
+  check('year').isFloat({min: 0, max: 2020 }).withMessage('Год издания должен быть от 0 до 2020')
 ],
 function(req, res, next) {
   const errors = validationResult(req);
