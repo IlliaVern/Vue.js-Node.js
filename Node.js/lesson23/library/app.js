@@ -5,8 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var booksRouter = require('./routes/books')
-
 
 var app = express();
 
@@ -30,7 +28,6 @@ app.use((req, res, next)=>{
 })
 
 app.use('/', indexRouter);
-app.use('/books', booksRouter)
 
 //Приклад зчитування даних з файла json
 app.get('/data',(req,res)=>{

@@ -4,22 +4,22 @@ const { check, validationResult } = require('express-validator');
 
 
 /* GET books listing. */
-router.get('/', function(req, res, next) {
+router.get('/books', function(req, res, next) {
   const data = require(req.bookDir + '/books.json')
   res.render('main', {title: 'Library App', page: 'books-list', books: data.books})
 });
 /* GET add book page. */
-router.get('/add', function(req, res, next){
+router.get('/books/add', function(req, res, next){
   res.render('main', {title: 'Library App', page: 'add-book'})
 })
 /* GET edit book page. */
-router.get('/edit/:bookId', function(req, res, next){
+router.get('/books/edit/:bookId', function(req, res, next){
   const data = require(req.bookDir + '/books.json')
   res.render('main', {title: 'Library App', page: 'edit-book', books: data.books, 
   id: req.params.bookId})
 })
 /* GET filtered book page. */
-router.get('/filter', function(req, res, next){
+router.get('/books/filter', function(req, res, next){
   const data = require(req.bookDir + '/books.json')
   if (req.query.author) {
     res.render('main', {title: 'Library App', page: 'books-list', 
@@ -31,7 +31,7 @@ router.get('/filter', function(req, res, next){
     books: data.books})
 })
 /* POST add book page. */
-router.post('/add',
+router.post('/books/add',
 [
   check('title').isLength({min:2}).bail().withMessage('Название должно быть длиннее 2-х букв'),
   check('author').isLength({min:5}).bail().isString({min:5}).bail().withMessage('Имя и фамилия автора должны быть текстом и длиннее 5-ти букв'),
@@ -58,7 +58,7 @@ function(req, res, next) {
 })
 
 /* POST edit book page. */
-router.post('/edit',
+router.post('/books/edit',
 [
   check('id').isLength({min:0}).withMessage('Відсутній id'),
   check('title').isLength({min:2}).bail().withMessage('Название должно быть длиннее 2-х букв'),
@@ -85,7 +85,7 @@ function(req, res, next) {
   }
 })
 /* POST filter book page. */
-// router.post('/filter',
+// router.post('/books/filter',
 // [
 //   check('searchWord').isLength({min:2}).withMessage('Enter search word')
 // ],
@@ -100,7 +100,6 @@ function(req, res, next) {
 //     data.books = data.books.filter(book => book.searchBy === searchWord)
 //     res.render('main', {title: 'Library App', page: 'books-list', books: data.books, 
 //   searchBy: req.body.searchBy, searchWord: req.body.searchWord})
-    
 //   }
 // })
 
