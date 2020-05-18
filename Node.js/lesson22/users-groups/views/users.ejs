@@ -1,0 +1,7 @@
+<% for(user of users){ %>
+<div>Name: <%=user.name%></div>
+<div>Age: <%=user.age%></div>
+<div>Favourite films: <%=user.favfilms%></div>
+<button onclick="editUser(`${user.id}`)">Edit</button>
+<button onclick="deleteUser(`${user.id}`)">Delete</button>
+<%}%>
